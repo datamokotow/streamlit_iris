@@ -1,40 +1,33 @@
-!pip install joblib
 import streamlit as st
 import pandas as pd
-import joblib
+import pickle
 from PIL import Image
 
-#Loading Our final trained Knn model 
-model= open("Knn_Classifier.pkl", "rb")
-knn_clf=joblib.load(model)
+model = pickle.load(open('Knn-classifier.pkl', 'rb'))
 
+st.header("Iris Classification:")
 
-st.title("Iris flower species Classification App")
+image = Image.open('image.png')
+st.image(image, use_column_width=True,format='PNG')
 
-#Loading images
+st.write("Please insert values, to get Iris class prediction")
 
-#setosa= Image.open('setosa.png')
-#versicolor= Image.open('versicolor.png')
-#virginica = Image.open('virginica.png')
+SepalLengthCm = st.slider('SepalLengthCm:', 2.0, 6.0)
+SepalWidthCm = st.slider('SepalWidthCm:', 0.0, 5.0)
+PetalLengthCm = st.slider('PetalLengthCm',0.0, 3.0)
+PetalWidthCm = st.slider('SkiPetalWidthCm:', 0.0, 2.0)
 
-st.sidebar.title("Features")
+data = {'SepalLengthCm': SepalLengthCm,
+        'SepalWidthCm': SepalWidthCm,
+        'PetalLengthCm': PetalLengthCm,
+        'PetalWidthCm': PetalWidthCm}
 
-#Intializing
-parameter_list=['Sepal length (cm)','Sepal Width (cm)','Petal length (cm)','Petal Width (cm)']
-parameter_input_values=[]
-parameter_default_values=['5.2','3.2','4.2','1.2']
+features = pd.DataFrame(data, index=[0])
 
-values=[]
+pred_proba = model.predict_proba(features)
 
-#Display
-for parameter, parameter_df in zip(parameter_list, parameter_default_values):
-	
-	values= st.sidebar.slider(label=parameter, key=parameter,value=float(parameter_df), min_value=0.0, max_value=8.0, step=0.1)
-	parameter_input_values.append(values)
-	
-input_variables=pd.DataFrame([parameter_input_values],columns=parameter_list,dtype=float)
-st.write('\n\n')
+st.subheader('Prediction Percentages:')
 
-if st.button("Click Here to Classify"):
-	prediction = knn_clf.predict(input_variables)
-	"setosa" if prediction == 0 else "versicolor"  if prediction == 1 else "virginica"
+st.write('**Probablity of Iris Class being Iris-setosa is ( in % )**:',pred_proba[0][0]*100)
+st.write('**Probablity of Isis Class being Iris-versicolor is ( in % )**:',pred_proba[0][1]*100)
+st.write('**Probablity of Isis Class being Iris-virginica ( in % )**:',pred_proba[0][2]*100)
