@@ -1,3 +1,22 @@
+from sklearn.datasets import load_iris
+iris= load_iris()
+# Store features matrix in X
+X= iris.data
+#Store target vector in y
+y= iris.target
+# Finalizing KNN Classifier after evaluation and choosing best 
+# parameter
+#Importing KNN Classifier
+from sklearn.neighbors import KNeighborsClassifier
+# instantiate the model with the best known parameters
+knn = KNeighborsClassifier(n_neighbors=12)
+# train the model with X and y (not X_train and y_train)
+knn_clf=knn.fit(X, y)
+# Saving knn_clf
+import joblib
+# Save the model as a pickle in a file
+joblib.dump(knn_clf, "Knn_Classifier.pkl")
+
 import streamlit as st
 import pandas as pd
 import joblib
@@ -12,9 +31,9 @@ st.title("Iris flower species Classification App")
 
 #Loading images
 
-setosa= Image.open('setosa.png')
-versicolor= Image.open('versicolor.png')
-virginica = Image.open('virginica.png')
+#setosa= Image.open('setosa.png')
+#versicolor= Image.open('versicolor.png')
+#virginica = Image.open('virginica.png')
 
 st.sidebar.title("Features")
 
