@@ -3,7 +3,8 @@
 
 import streamlit as st
 import pandas as pd
-from sklearn import datasets
+from sklearn.datasets import *
+from sklearn.datasets import load_iris
 from sklearn.linear_model import LogisticRegression
 
 st.subheader("""
