@@ -4,7 +4,7 @@
 import streamlit as st
 import pandas as pd
 #from sklearn.datasets import *
-from sklearn.datasets import load_iris
+#from sklearn.datasets import load_iris
 from sklearn.linear_model import LogisticRegression
 
 st.subheader("""
@@ -31,7 +31,7 @@ func = user_input_features()
 st.write(""" **User Input Parameter** """)
 st.write(func)
 
-dataset = datasets.load_iris()
+dataset =pd.read_csv("https://raw.githubusercontent.com/scikit-learn/scikit-learn/main/sklearn/datasets/data/iris.csv")
 X = dataset['data']
 Y = dataset['target']
 
